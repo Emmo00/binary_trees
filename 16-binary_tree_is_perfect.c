@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "binary_trees.h"
 /**
  * height - finds the height of a binary subtree
@@ -23,12 +24,18 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
 {
 	int height_l, height_r;
 
+	if (!tree->left && !tree->right)
+		return (1);
 	if (tree == NULL)
 		return (0);
 	height_l = height(tree->left);
 	height_r = height(tree->right);
 	if (height_l < height_r)
 		return (0);
-	binary_tree_is_perfect(tree->left);
-	return (1);
+	if (tree->left && tree->right)
+		return (binary_tree_is_perfect(tree->left) &
+				binary_tree_is_perfect(tree->right));
+	if (tree->left)
+		return (binary_tree_is_perfect(tree->left));
+	return (0);
 }
